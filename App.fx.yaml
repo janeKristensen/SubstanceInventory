@@ -1,0 +1,59 @@
+App As appinfo:
+    BackEnabled: =false
+    Formulas: |+
+        =AppTheme = {
+            palette: {
+                themeBackground: RGBA(174, 196, 182, 0.2),
+                themeScreenBackground: RGBA(233, 229, 221, 0.5),
+                themeTitleBar: RGBA(174, 196, 182, 0.7),
+                themePopUp: RGBA(225, 236, 229, 1),
+                themeLightText: RGBA(255, 255, 255, 1),
+                themeDarkText: RGBA(0, 0, 0, 1),
+                themeDarkerText: RGBA(42, 50, 45, 1),
+                themeHeader: RGBA(103, 139, 115, 1),
+                themeButton: RGBA(95, 117, 103, 1),
+                themeDeleteButton: RGBA(184, 0, 0, 0.7),
+                themeButtonComplementary: RGBA(254, 81, 0, 0.7),
+                themeButtonComplementaryDarker: RGBA(254, 81, 0, 0.9),
+                themeButtonComplementarySecondary: RGBA(130, 148, 144, 1),
+                black: RGBA(0, 0, 0, 1),
+                white: RGBA(255, 255, 255, 1)
+            },
+            textsize: 
+            {
+                themeHeader: 26,
+                themeTitle: 22,
+                themeTitle2: 18,
+                themeText: 16,
+                themeTextSmall: 13
+            }
+        
+        };
+        
+        
+        FilterAndSortRequisitions = Sort(
+            If(! IsBlank(txtSearchBoxRequisition_1.Text),
+                Filter(Requisitions,
+                    txtSearchBoxRequisition_1.Text in Receiver || 
+                    txtSearchBoxRequisition_1.Text in Country ||
+                    txtSearchBoxRequisition_1.Text in RequisitionNumber
+                ),
+                If(! IsBlank(cbFilterByCountryReq_1.Selected.Value),
+                    Filter(Requisitions, Country = cbFilterByCountryReq_1.Selected.Value),
+                    Requisitions
+                )
+            ),
+            RequisitionNumber,
+            SortOrder.Descending
+        );
+        
+    OnStart: =Set(varUser, Office365Users.MyProfileV2());
+    Theme: =LEO
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

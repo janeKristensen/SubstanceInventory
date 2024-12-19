@@ -1,0 +1,119 @@
+"PDFReferencesScreen As screen.'printableLayout_A4Portrait_ver2.0'":
+    Fill: =Color.White
+    Height: =1145
+    LoadingSpinnerColor: =App.Theme.Colors.Primary
+    Width: =794
+
+    PrintButton1 As Button:
+        Appearance: ='Button.ButtonType'.Primary
+        BasePaletteColor: =RGBA(103, 139, 115, 1)
+        BorderRadiusBottomLeft: =10
+        BorderRadiusBottomRight: =10
+        BorderRadiusTopLeft: =10
+        BorderRadiusTopRight: =10
+        DisplayMode: =DisplayMode.Edit
+        Height: =32
+        Icon: ="DocumentPdf"
+        IconStyle: ='ButtonCanvas.IconStyle'.Filled
+        Layout: ='ButtonCanvas.Layout'.IconBefore
+        OnSelect: |
+            =UpdateContext(
+                {
+                    requisitionReportPDF: PDF(PDFReferencesScreen),
+                    filename:
+                        Concatenate(
+                            printPDFItem.Title,
+                            " ",
+                            printPDFItem.Batch,
+                            " ",
+                            Text(
+                                Today(),
+                                "yyyymmdd"
+                            ),
+                            ".pdf"
+                        )
+                }
+            );
+            IS_Trigger_CreatePDF.Run(
+                filename,
+                {
+                    name: "NewInspectionReport.pdf",
+                    contentBytes: requisitionReportPDF
+                }
+            );
+        Back();
+        Text: ="Print to PDF"
+        Visible: =Not(PDFReferencesScreen.Printing)
+        Width: =150
+        X: =51.67
+        Y: =40
+        ZIndex: =2
+
+    htmlTextRequisitions As htmlViewer:
+        Height: =Parent.Height - 80
+        HtmlText: |-
+            ="<!DOCTYPE html>
+            <html>
+            <head>
+            <style>
+            table, th, td {
+                border: 1px solid black;
+            }
+            </style>
+            </head>
+            <body>
+            
+            
+            <h3> Requisitions of Substance: " & printPDFItem.Title & ", " & printPDFItem.Batch & ", " & printPDFItem.Amount_x002f_Unit & "
+            </h3>
+            
+            <table style='width:100%'>
+                <tr>
+                    <th style='width:15%'>Req. No.</th>
+                    <th style='width:50%'>Receiver</th>
+                    <th style='width:30%' align='center'>Country</th>
+                    <th style='width:25%'>Amount</th>
+                </tr>" &
+                Concat(glrDetailScreenItemsSubstance.AllItems, "<tr><td>" & ThisRecord.lblRequisitionNumberSubstance.Text & "</td><td>" & ThisRecord.lblReceiverSubstance.Text & "</td><td align='center'>" & ThisRecord.lblCountrySubstance.Text & "</td><td align='center'>" & ThisRecord.Amount & "</td></tr>")
+                &
+            "</table>
+            </body>
+            </html>
+            "
+        PaddingRight: =8.33
+        PaddingTop: =8.33
+        Size: =12
+        Width: =Parent.Width - 48
+        X: =24
+        Y: =PrintButton1.Height + 40
+        ZIndex: =3
+
+    Button1 As button:
+        BorderColor: =App.Theme.Colors.Primary
+        Color: =App.Theme.Colors.PrimaryForeground
+        DisabledBorderColor: =RGBA(244, 244, 244, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =AppTheme.palette.themeDeleteButton
+        Font: =App.Theme.Font
+        FontWeight: =FontWeight.Bold
+        Height: =30
+        HoverBorderColor: =App.Theme.Colors.Darker10
+        HoverColor: =AppTheme.palette.black
+        HoverFill: =ColorFade(AppTheme.palette.themeBackground, 10%)
+        OnSelect: =Back();
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedBorderColor: =App.Theme.Colors.Darker40
+        PressedColor: =Self.Color
+        PressedFill: =App.Theme.Colors.Darker40
+        Size: =10
+        Text: ="Cancel"
+        Visible: =Not(PDFReferencesScreen.Printing)
+        Width: =150
+        X: =233
+        Y: =40
+        ZIndex: =4
+

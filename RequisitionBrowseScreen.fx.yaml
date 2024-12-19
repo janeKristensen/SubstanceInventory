@@ -1,0 +1,772 @@
+RequisitionBrowseScreen As screen:
+    Fill: =AppTheme.palette.themeScreenBackground
+    LoadingSpinnerColor: =App.Theme.Colors.Primary
+    OnVisible: |-
+        =UpdateContext({varResetReq: false});
+
+    conMainScreenReq_1 As groupContainer.verticalAutoLayoutContainer:
+        Height: =Parent.Height
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        PaddingTop: =0.00
+        Width: =Parent.Width
+        X: =0.00
+        ZIndex: =1
+
+        conMainScreenHeaderReq_1 As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            DropShadow: =DropShadow.Light
+            Fill: =App.Theme.Colors.Primary
+            FillPortions: =0
+            Height: =65
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            Width: =Parent.Width
+            X: =0.00
+            ZIndex: =1
+
+            lblScreenNameReq_2 As label:
+                BorderColor: =App.Theme.Colors.Darker40
+                Color: =AppTheme.palette.themeLightText
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisplayMode: =DisplayMode.View
+                Font: =App.Theme.Font
+                FontWeight: =FontWeight.Semibold
+                Height: =Parent.Height
+                LayoutMinHeight: =Parent.LayoutMinHeight
+                PaddingLeft: =25
+                Size: =AppTheme.textsize.themeHeader
+                Text: ="Requisitions"
+                Width: =Parent.Width
+                Wrap: =false
+                X: =0.00
+                ZIndex: =1
+
+        conMainContentReqList As groupContainer.horizontalAutoLayoutContainer:
+            FillPortions: =0
+            Height: =Parent.Height - conMainScreenHeaderReq_1.Height
+            LayoutMinHeight: =50
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Width: =Parent.Width
+            ZIndex: =2
+
+            conSidebarButtonsreqList As groupContainer.verticalAutoLayoutContainer:
+                DropShadow: =DropShadow.Semibold
+                FillPortions: =2
+                Height: =Parent.Height
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =12
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =12
+                PaddingRight: =12
+                PaddingTop: =24
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                ZIndex: =1
+
+                conlblNewRequisition As groupContainer.manualLayoutContainer:
+                    DropShadow: =DropShadow.Light
+                    Fill: =AppTheme.palette.themeButtonComplementary
+                    FillPortions: =0
+                    Height: =50
+                    LayoutMinHeight: =50
+                    LayoutMinWidth: =200
+                    RadiusBottomLeft: =10  
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =icoAddNewItemReq_3.Width + Label8_2.Width
+                    ZIndex: =1
+
+                    icoAddNewItemReq_3 As icon.Add:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeLightText
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Height: =Parent.Height
+                        Icon: =Icon.Add
+                        OnSelect: =Select(btnNewSubstanceReq_3)
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Width: =Parent.Height
+                        ZIndex: =1
+
+                    Label8_2 As label:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeLightText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        Height: =Parent.Height
+                        PaddingLeft: =12
+                        PaddingTop: =2
+                        Size: =AppTheme.textsize.themeTitle2
+                        Text: ="New Requisition"
+                        Width: =200
+                        X: =icoAddNewItemReq_3.Width
+                        ZIndex: =2
+
+                    btnNewSubstanceReq_3 As button:
+                        Align: =Align.Left
+                        BorderColor: =Self.Fill
+                        BorderThickness: =4
+                        Color: =AppTheme.palette.themeLightText
+                        DisabledBorderColor: =Self.Fill
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(0,0,0,0)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Bold
+                        Height: =Parent.Height
+                        HoverBorderColor: =AppTheme.palette.themeButtonComplementaryDarker
+                        HoverColor: =AppTheme.palette.themeDarkText
+                        HoverFill: =ColorFade(AppTheme.palette.themeBackground, 90%)
+                        OnSelect: |-
+                            =NewForm(formNewRequisition); Navigate(NewScreenRequisition, Transition.None); Set(varEditReq, false); UpdateContext({varResetReq: true})
+                        PressedBorderColor: =AppTheme.palette.white
+                        PressedColor: =AppTheme.palette.themeLightText
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Size: =AppTheme.textsize.themeText
+                        Text: =""
+                        Width: =Parent.Width
+                        ZIndex: =3
+
+                conLblNewSubstance As groupContainer.manualLayoutContainer:
+                    DropShadow: =DropShadow.Light
+                    Fill: =AppTheme.palette.themeButton
+                    FillPortions: =0
+                    Height: =50
+                    LayoutMinHeight: =50
+                    LayoutMinWidth: =200
+                    RadiusBottomLeft: =10  
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =icoAddNewItemReq_2.Width + Label8_1.Width
+                    ZIndex: =2
+
+                    icoAddNewItemReq_2 As icon.Add:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeLightText
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Height: =Parent.Height
+                        Icon: =Icon.Add
+                        OnSelect: =Select(btnNewSubstanceReq_2)
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Width: =Parent.Height
+                        ZIndex: =1
+
+                    Label8_1 As label:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeLightText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        Height: =Parent.Height
+                        PaddingLeft: =12
+                        PaddingTop: =2
+                        Size: =AppTheme.textsize.themeTitle2
+                        Text: ="New Substance"
+                        Width: =200
+                        X: =icoAddNewItemReq_3.Width
+                        ZIndex: =2
+
+                    btnNewSubstanceReq_2 As button:
+                        Align: =Align.Left
+                        BorderColor: =Self.Fill
+                        BorderThickness: =4
+                        Color: =AppTheme.palette.themeLightText
+                        DisabledBorderColor: =Self.Fill
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(0,0,0,0)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Bold
+                        Height: =Parent.Height
+                        HoverBorderColor: =AppTheme.palette.themeButton
+                        HoverColor: =AppTheme.palette.themeDarkText
+                        HoverFill: =ColorFade(AppTheme.palette.themeBackground, 90%)
+                        OnSelect: |-
+                            =NewForm(formEditSubstance); Navigate(EditScreenSubstance, Transition.None); UpdateContext({varResetReq: true})
+                        PressedBorderColor: =AppTheme.palette.white
+                        PressedColor: =AppTheme.palette.themeLightText
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Size: =AppTheme.textsize.themeText
+                        Text: =""
+                        Width: =Parent.Width
+                        ZIndex: =3
+
+                "BarcodeReader1_3 As 'Barcode Reader'":
+                    AlignInContainer: =AlignInContainer.Stretch
+                    BarcodeType: ='BarcodeReader.BarcodeType'.Code39
+                    BorderFillColor: =AppTheme.palette.themeButton
+                    BorderRadius: =10
+                    BorderThickness: =3
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledContentColor: =RGBA(166, 166, 166, 1)
+                    DisabledFillColor: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =DisplayMode.Edit
+                    FillColor: =AppTheme.palette.themeBackground
+                    FontSize: =AppTheme.textsize.themeTitle2
+                    FontWeight: ="200"
+                    Height: =56
+                    HoverBorderColor: =AppTheme.palette.themeButton
+                    HoverContentColor: =RGBA(255, 255, 255, 1)
+                    HoverFillColor: =ColorFade(AppTheme.palette.themeButtonComplementarySecondary, 20%)
+                    LayoutMinHeight: =60
+                    LayoutMinWidth: =Parent.LayoutMinWidth + 5
+                    OnCancel: =Back()
+                    OnScan: |-
+                        =Navigate(
+                            DetailScreenSubstance,
+                            Transition.None,
+                            {
+                                displayItem: LookUp(
+                                    Substances,
+                                    ID = Value(First(BarcodeReader1_3.Barcodes).Value)
+                                )
+                            }
+                        )
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedBorderColor: =RGBA(56, 96, 178, 1)
+                    PressedContentColor: =RGBA(56, 96, 178, 1)
+                    PressedFillColor: =RGBA(255, 255, 255, 1)
+                    ScanningMode: ='BarcodeReader.ScanningMode'.AutomaticallyScan
+                    TextColor: =RGBA(0, 0, 0, 1)
+                    VerticalAlign: =VerticalAlign.Middle
+                    Width: =Parent.Width + 6
+                    X: =0
+                    Y: =0
+                    ZIndex: =3
+
+                conLblSubstanceList As groupContainer.manualLayoutContainer:
+                    BorderColor: =AppTheme.palette.themeButton
+                    BorderThickness: =3
+                    DropShadow: =DropShadow.Light
+                    Fill: =AppTheme.palette.themeBackground
+                    FillPortions: =0
+                    Height: =50
+                    LayoutMinHeight: =50
+                    LayoutMinWidth: =200
+                    RadiusBottomLeft: =10  
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =Parent.Width
+                    ZIndex: =4
+
+                    icoAddNewItemReq_4 As icon.Add:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.black
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Height: =Parent.Height
+                        Icon: =Icon.Folder
+                        OnSelect: =Select(btnNewSubstanceReq_4)
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Width: =Parent.Height
+                        ZIndex: =1
+
+                    Label8_3 As label:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.black
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        Height: =Parent.Height
+                        PaddingLeft: =12
+                        PaddingTop: =2
+                        Size: =AppTheme.textsize.themeTitle2
+                        Text: ="Substances"
+                        Width: =Parent.Width - icoAddNewItemReq_4.Width
+                        X: =icoAddNewItemReq_3.Width
+                        ZIndex: =2
+
+                    btnNewSubstanceReq_4 As button:
+                        Align: =Align.Left
+                        BorderColor: =Self.Fill
+                        BorderThickness: =1
+                        Color: =AppTheme.palette.themeLightText
+                        DisabledBorderColor: =Self.Fill
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(0,0,0,0)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Bold
+                        Height: =Parent.Height
+                        HoverBorderColor: =AppTheme.palette.themeButton
+                        HoverColor: =AppTheme.palette.themeDarkText
+                        HoverFill: =ColorFade(AppTheme.palette.themeBackground, -10%)
+                        OnSelect: |-
+                            =Navigate(ReferenceBrowseScreen, Transition.None); UpdateContext({varResetReq: true})
+                        PressedBorderColor: =AppTheme.palette.white
+                        PressedColor: =AppTheme.palette.themeLightText
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Size: =AppTheme.textsize.themeText
+                        Text: =""
+                        Width: =Parent.Width
+                        ZIndex: =3
+
+                conLblRetestList As groupContainer.manualLayoutContainer:
+                    BorderColor: =AppTheme.palette.themeButton
+                    BorderThickness: =3
+                    DropShadow: =DropShadow.Light
+                    Fill: =AppTheme.palette.themeBackground
+                    FillPortions: =0
+                    Height: =50
+                    LayoutMinHeight: =50
+                    LayoutMinWidth: =Parent.LayoutMinWidth
+                    RadiusBottomLeft: =10  
+                    RadiusBottomRight: =10
+                    RadiusTopLeft: =10
+                    RadiusTopRight: =10
+                    Width: =Parent.Width
+                    ZIndex: =5
+
+                    icoAddNewItemReq_5 As icon.Add:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.black
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Height: =Parent.Height
+                        Icon: =Icon.CalendarBlank
+                        OnSelect: =Select(btnNewSubstanceReq_5)
+                        PaddingBottom: =11
+                        PaddingLeft: =11
+                        PaddingRight: =11
+                        PaddingTop: =11
+                        Width: =Parent.Height
+                        ZIndex: =1
+
+                    Label8_4 As label:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.black
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        Height: =Parent.Height
+                        PaddingLeft: =12
+                        PaddingTop: =2
+                        Size: =AppTheme.textsize.themeTitle2
+                        Text: ="Retests"
+                        Width: =Parent.Width - icoAddNewItemReq_5.Width
+                        X: =icoAddNewItemReq_3.Width
+                        ZIndex: =2
+
+                    btnNewSubstanceReq_5 As button:
+                        Align: =Align.Left
+                        BorderColor: =Self.Fill
+                        BorderThickness: =1
+                        Color: =AppTheme.palette.themeLightText
+                        DisabledBorderColor: =Self.Fill
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(0,0,0,0)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Bold
+                        Height: =Parent.Height
+                        HoverBorderColor: =AppTheme.palette.themeButton
+                        HoverColor: =AppTheme.palette.themeDarkText
+                        HoverFill: =ColorFade(AppTheme.palette.themeBackground, -10%)
+                        OnSelect: |-
+                            =Navigate(RetestBrowseScreen, Transition.None); UpdateContext({varResetReq: true})
+                        PressedBorderColor: =AppTheme.palette.white
+                        PressedColor: =AppTheme.palette.themeLightText
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Size: =AppTheme.textsize.themeText
+                        Text: =""
+                        Width: =Parent.Width
+                        ZIndex: =3
+
+            conMainScreenMainContentReq_1 As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =12
+                Height: =Parent.Height
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingTop: =24
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Width: =Parent.Width
+                X: =0.00
+                ZIndex: =2
+
+                conMainScreenSearchBoxReq_1 As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =AppTheme.palette.themeButton
+                    Fill: =RGBA(0,0,0,0)
+                    FillPortions: =0
+                    Height: =70
+                    LayoutMinHeight: =50
+                    LayoutMinWidth: =200
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =24
+                    PaddingLeft: =24
+                    PaddingRight: =24
+                    PaddingTop: =0.00
+                    Width: =0.00
+                    X: =0.00
+                    ZIndex: =1
+
+                    icoSearchRequisition_1 As icon.Search:
+                        AlignInContainer: =AlignInContainer.Start
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeLightText
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Fill: =AppTheme.palette.themeButton
+                        FillPortions: =1
+                        FocusedBorderThickness: =0
+                        Height: =50
+                        Icon: =Icon.Search
+                        LayoutMinHeight: =Parent.LayoutMinHeight
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Width: =Self.Height
+                        X: =0.00
+                        ZIndex: =1
+
+                    txtSearchBoxRequisition_1 As text:
+                        AlignInContainer: =AlignInContainer.Start
+                        BorderColor: =AppTheme.palette.themeButton
+                        Color: =RGBA(0, 0, 0, 1)
+                        Default: =""
+                        DelayOutput: =true
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        FillPortions: =12
+                        FocusedBorderThickness: =4
+                        Font: =App.Theme.Font
+                        Height: =50
+                        HintText: ="Search for requisitions"
+                        HoverBorderColor: =App.Theme.Colors.Darker40
+                        HoverColor: =RGBA(0, 0, 0, 1)
+                        HoverFill: =RGBA(214, 221, 224, 1)
+                        LayoutMinHeight: =Parent.LayoutMinHeight
+                        PaddingLeft: =25
+                        RadiusBottomRight: =0
+                        RadiusTopRight: =0
+                        Reset: =varResetReq
+                        Size: =AppTheme.textsize.themeText
+                        Width: =0.00
+                        X: =0.00
+                        ZIndex: =2
+
+                    icoCancelSearchRequisition_1 As icon.Cancel:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.white
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(244, 244, 244, 1)
+                        Fill: =AppTheme.palette.themeDeleteButton
+                        Height: =50
+                        Icon: =Icon.Cancel
+                        OnSelect: =Reset(txtSearchBoxRequisition_1)
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        Visible: =If(IsBlank(txtSearchBoxRequisition_1.Text), false, true)
+                        Width: =Self.Height
+                        X: =0.00
+                        ZIndex: =3
+
+                    cbFilterByReview As combobox:
+                        AlignInContainer: =AlignInContainer.Start
+                        BorderColor: =AppTheme.palette.themeButton
+                        BorderThickness: =1
+                        ChevronBackground: =AppTheme.palette.themeButton
+                        ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                        ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                        ChevronFill: =App.Theme.Colors.PrimaryForeground
+                        ChevronHoverBackground: =App.Theme.Colors.Darker10
+                        ChevronHoverFill: =App.Theme.Colors.PrimaryForeground
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayFields: =["Value"]
+                        FillPortions: =3
+                        Font: =App.Theme.Font
+                        Height: =50
+                        HoverColor: =RGBA(0, 0, 0, 1)
+                        HoverFill: =RGBA(214, 221, 224, 1)
+                        InputTextPlaceholder: ="Filter by review status"
+                        Items: =["Not Reviewed","Reviewed"]
+                        LayoutMinHeight: =60
+                        PaddingLeft: =25
+                        PressedColor: =App.Theme.Colors.PrimaryForeground
+                        PressedFill: =App.Theme.Colors.Darker30
+                        Reset: =varResetReq
+                        SearchFields: =["Value"]
+                        SearchItems: =Search(["Not Reviewed","Reviewed"],cbFilterByReview.SearchText,Value)
+                        SelectionColor: =RGBA(0, 0, 0, 1)
+                        SelectionFill: =RGBA(214, 221, 224, 1)
+                        SelectMultiple: =false
+                        Size: =AppTheme.textsize.themeText
+                        Width: =200
+                        X: =0.00
+                        ZIndex: =4
+
+                    cbFilterByCountryReq_1 As combobox:
+                        AlignInContainer: =AlignInContainer.Start
+                        BorderColor: =AppTheme.palette.themeButton
+                        BorderThickness: =1
+                        ChevronBackground: =AppTheme.palette.themeButton
+                        ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                        ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                        ChevronFill: =App.Theme.Colors.PrimaryForeground
+                        ChevronHoverBackground: =App.Theme.Colors.Darker10
+                        ChevronHoverFill: =App.Theme.Colors.PrimaryForeground
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayFields: =["Value"]
+                        FillPortions: =3
+                        Font: =App.Theme.Font
+                        Height: =50
+                        HoverColor: =RGBA(0, 0, 0, 1)
+                        HoverFill: =RGBA(214, 221, 224, 1)
+                        InputTextPlaceholder: ="Filter by country"
+                        Items: =Distinct(Requisitions, Country)
+                        LayoutMinHeight: =60
+                        PaddingLeft: =25
+                        PressedColor: =App.Theme.Colors.PrimaryForeground
+                        PressedFill: =App.Theme.Colors.Darker30
+                        Reset: =varResetReq
+                        SearchFields: =["Value"]
+                        SearchItems: =Search(Distinct(Requisitions,Country),cbFilterByCountryReq_1.SearchText,Value)
+                        SelectionColor: =RGBA(0, 0, 0, 1)
+                        SelectionFill: =RGBA(214, 221, 224, 1)
+                        SelectMultiple: =false
+                        Size: =AppTheme.textsize.themeText
+                        Width: =200
+                        X: =0.00
+                        ZIndex: =5
+
+                Rectangle10 As rectangle:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Fill: =App.Theme.Colors.Primary
+                    Height: =3
+                    Width: =Parent.Width
+                    ZIndex: =2
+
+                glrRequisitionsList As gallery.galleryVertical:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    DelayItemLoading: =true
+                    Height: =Parent.Height - conMainScreenSearchBoxReq_1.Height
+                    Items: |-
+                        =If(cbFilterByReview.Selected.Value = "Not Reviewed",
+                            Filter(FilterAndSortRequisitions, IsBlank(Reviewer)),
+                            If(cbFilterByReview.Selected.Value = "Reviewed",
+                                Filter(FilterAndSortRequisitions, !IsBlank(Reviewer)),
+                                FilterAndSortRequisitions
+                            )
+                        )
+                    Layout: =Layout.Vertical
+                    LayoutMinHeight: =250
+                    LayoutMinWidth: =300
+                    LoadingSpinner: =LoadingSpinner.Data
+                    OnSelect: |-
+                        =Navigate(DetailScreenRequisition, Transition.None, {displayReqItem:glrRequisitionsList.Selected})
+                    TemplateFill: =AppTheme.palette.white
+                    TemplatePadding: =24
+                    TemplateSize: =If(Self.Layout = Layout.Horizontal, Min(280, Self.Width - 60), Min(260, Self.Height - 60))
+                    Width: =Parent.Width
+                    WrapCount: =4
+                    ZIndex: =3
+
+                    conLine_1 As groupContainer.horizontalAutoLayoutContainer:
+                        Height: =80
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingLeft: =24
+                        PaddingTop: =24
+                        RadiusBottomLeft: =4
+                        RadiusBottomRight: =4
+                        RadiusTopLeft: =4
+                        RadiusTopRight: =4
+                        Width: =Parent.TemplateWidth
+                        ZIndex: =1
+
+                        ReviewStatus_1 As button:
+                            BorderColor: =ColorFade(Self.Fill, -55%)
+                            Color: =App.Theme.Colors.PrimaryForeground
+                            DisabledBorderColor: =RGBA(244, 244, 244, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            Fill: =If(IsBlankOrError(ThisItem.'Review Date'), ColorFade(AppTheme.palette.themeDeleteButton, 20%), ColorFade(AppTheme.palette.themeHeader, 20%))
+                            Font: =App.Theme.Font
+                            FontWeight: =FontWeight.Semibold
+                            HoverBorderColor: =App.Theme.Colors.Darker10
+                            HoverColor: =App.Theme.Colors.PrimaryForeground
+                            HoverFill: =App.Theme.Colors.Darker10
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            PressedBorderColor: =App.Theme.Colors.Darker40
+                            PressedColor: =Self.Color
+                            PressedFill: =App.Theme.Colors.Darker40
+                            Size: =15
+                            Text: =If(IsBlankOrError(ThisItem.'Review Date'), "Not Reviewed", "Reviewed")
+                            Width: =150
+                            X: =40
+                            Y: =146
+                            ZIndex: =1
+
+                        Label7_1 As label:
+                            Align: =Align.Right
+                            BorderColor: =App.Theme.Colors.Darker40
+                            Color: =RGBA(0, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FillPortions: =1
+                            Font: =App.Theme.Font
+                            Height: =ReviewStatus_1.Height
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =24
+                            PaddingTop: =0
+                            Size: =AppTheme.textsize.themeText
+                            Text: =Text(ThisItem.Created, "yyyy-mm-dd")
+                            ZIndex: =2
+
+                    conLine_2 As groupContainer.horizontalAutoLayoutContainer:
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMode: =LayoutMode.Auto
+                        RadiusBottomLeft: =4
+                        RadiusBottomRight: =4
+                        RadiusTopLeft: =4
+                        RadiusTopRight: =4
+                        Width: =Parent.TemplateWidth
+                        Y: =conLine_1.Height
+                        ZIndex: =2
+
+                        Label5_1 As label:
+                            BorderColor: =App.Theme.Colors.Darker40
+                            Color: =RGBA(0, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            FontWeight: =FontWeight.Bold
+                            Height: =Parent.Height
+                            PaddingLeft: =36
+                            Size: =AppTheme.textsize.themeTitle2
+                            Text: =ThisItem.RequisitionNumber
+                            Width: =Parent.Width
+                            ZIndex: =1
+
+                    conLine_4 As groupContainer.horizontalAutoLayoutContainer:
+                        Height: =40
+                        LayoutMode: =LayoutMode.Auto
+                        RadiusBottomLeft: =4
+                        RadiusBottomRight: =4
+                        RadiusTopLeft: =4
+                        RadiusTopRight: =4
+                        Width: =Parent.TemplateWidth
+                        Y: =conLine_1.Height + conLine_2.Height + conLine_3.Height
+                        ZIndex: =3
+
+                        Label6_3 As label:
+                            Align: =Align.Right
+                            BorderColor: =App.Theme.Colors.Darker40
+                            Color: =RGBA(0, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =Parent.Height
+                            LayoutMinWidth: =20
+                            PaddingRight: =12
+                            Size: =AppTheme.textsize.themeTextSmall
+                            Text: =ThisItem.'Created By'.DisplayName
+                            Width: =318
+                            ZIndex: =1
+
+                        Image2_1 As image:
+                            BorderColor: =App.Theme.Colors.Darker40
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            Height: =Parent.Height
+                            Image: =ThisItem.'Created By'.Picture
+                            ImagePosition: =ImagePosition.Fill
+                            RadiusBottomLeft: =90
+                            RadiusBottomRight: =90
+                            RadiusTopLeft: =90
+                            RadiusTopRight: =90
+                            Width: =Parent.Height
+                            ZIndex: =2
+
+                    conLine_3 As groupContainer.horizontalAutoLayoutContainer:
+                        Height: =80
+                        LayoutMode: =LayoutMode.Auto
+                        RadiusBottomLeft: =4
+                        RadiusBottomRight: =4
+                        RadiusTopLeft: =4
+                        RadiusTopRight: =4
+                        Width: =Parent.TemplateWidth
+                        Y: =conLine_1.Height + conLine_2.Height
+                        ZIndex: =4
+
+                        Label6_1 As label:
+                            BorderColor: =App.Theme.Colors.Darker40
+                            Color: =RGBA(0, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =Parent.Height
+                            PaddingLeft: =36
+                            Size: =AppTheme.textsize.themeText
+                            Text: =ThisItem.Country  & "," & Char(10) & ThisItem.Receiver
+                            VerticalAlign: =VerticalAlign.Top
+                            Width: =Parent.Width
+                            Wrap: =false
+                            ZIndex: =1
+
+                    Button2_1 As button:
+                        BorderColor: =App.Theme.Colors.Primary
+                        Color: =App.Theme.Colors.PrimaryForeground
+                        DisabledBorderColor: =RGBA(244, 244, 244, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =RGBA(0,0,0,0)
+                        FocusedBorderThickness: =2
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.TemplateHeight
+                        HoverBorderColor: =ColorFade(Self.BorderColor, -70%)
+                        HoverColor: =RGBA(0,0,0,0)
+                        HoverFill: =ColorFade(AppTheme.palette.themeBackground, 70%)
+                        OnSelect: =Select(Parent)
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =App.Theme.Colors.Darker40
+                        PressedColor: =ColorFade(AppTheme.palette.themeBackground, 70%)
+                        PressedFill: =ColorFade(AppTheme.palette.themeBackground, 10%)
+                        Size: =15
+                        Text: =
+                        Width: =Parent.TemplateWidth
+                        ZIndex: =5
+

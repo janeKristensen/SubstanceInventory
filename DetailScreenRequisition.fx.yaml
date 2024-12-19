@@ -1,0 +1,1113 @@
+DetailScreenRequisition As screen:
+    Fill: =AppTheme.palette.themeScreenBackground
+    LoadingSpinnerColor: =App.Theme.Colors.Primary
+    OnVisible: =
+
+    conDetailScreenContent_1 As groupContainer.verticalAutoLayoutContainer:
+        Height: =Parent.Height
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        PaddingRight: =0.00
+        PaddingTop: =0.00
+        Width: =Parent.Width
+        X: =0.00
+        ZIndex: =1
+
+        conDetailScreenMainRequisition As groupContainer.verticalAutoLayoutContainer:
+            DropShadow: =DropShadow.Light
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            Width: =0.00
+            X: =0.00
+            ZIndex: =4
+
+            conDetailScreenHeaderBar_1 As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                DropShadow: =DropShadow.Light
+                Fill: =App.Theme.Colors.Primary
+                FillPortions: =0
+                Height: =65
+                LayoutMinHeight: =25
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                Width: =Parent.Width
+                X: =0.00
+                Y: =20
+                ZIndex: =1
+
+                icoBackReq As icon.Reload:
+                    AccessibleLabel: =icoBackReq.Tooltip
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeLightText
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    HoverColor: =ColorFade(Self.Color, -20%)
+                    HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                    Icon: =Icon.ArrowLeft
+                    OnSelect: |+
+                        =Back(); UpdateContext({varPopUpDeleteReq: false});
+                        
+                    PaddingBottom: =12
+                    PaddingLeft: =12
+                    PaddingRight: =12
+                    PaddingTop: =12
+                    PressedFill: =RGBA(40, 71, 52, 1)
+                    TabIndex: =0
+                    Tooltip: ="Navigate to home screen"
+                    Width: =Parent.Height
+                    X: =0.00
+                    ZIndex: =1
+
+                LblAppName1_3 As label:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeLightText
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =DisplayMode.View
+                    FillPortions: =18
+                    Font: =App.Theme.Font
+                    FontWeight: =FontWeight.Semibold
+                    Height: =Parent.Height
+                    LayoutMinHeight: =Parent.LayoutMinHeight
+                    PaddingLeft: =25
+                    Size: =AppTheme.textsize.themeHeader
+                    Text: ="Requisition details"
+                    Width: =0.00
+                    Wrap: =false
+                    X: =0.00
+                    ZIndex: =2
+
+                icoReviewReq As icon.Check:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.white
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =AppTheme.palette.white
+                    DisabledFill: =RGBA(166, 166, 166, 1)
+                    DisplayMode: |-
+                        =If(
+                            (varUser.displayName = displayReqItem.Author.DisplayName),
+                            DisplayMode.Disabled,
+                            DisplayMode.Edit
+                        )
+                    Fill: =AppTheme.palette.themeButtonComplementary
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    HoverColor: =ColorFade(Self.Color, -20%)
+                    HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                    Icon: =Icon.Check
+                    LayoutMinHeight: =Parent.LayoutMinHeight
+                    OnSelect: |-
+                        =If(!(varUser.displayName = displayReqItem.'Created By'.DisplayName),
+                            Patch(
+                                [@Requisitions],
+                                LookUp(
+                                    [@Requisitions],
+                                    ID = displayReqItem.ID
+                                ),
+                                {
+                                    IsLocked: true,
+                                    Reviewer: {
+                                        '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                        Claims: "i:0#.f|membership|" & varUser.id,
+                                        Department: "",
+                                        DisplayName: varUser.displayName,
+                                        Email: varUser.mail,
+                                        JobTitle: "",
+                                        Picture: ""
+                                    },
+                                    'Review Date': Today()
+                                }
+                            ),
+                            Notify("Reviewer cannot be the same as creator/modifier", NotificationType.Warning)
+                        );
+                        Refresh([@Requisitions]);
+                        ForAll(glrViewRequisitionItems.AllItems, Patch([@Substances], LookUp(Substances, ID = ref_id.Id), {Stock: LookUp(Substances, ID = ref_id.Id).Stock - ThisRecord.Amount}))
+                    PaddingBottom: =12
+                    PaddingLeft: =12
+                    PaddingRight: =12
+                    PaddingTop: =12
+                    Tooltip: ="Review requisition entry"
+                    Width: =Parent.Height
+                    X: =0.00
+                    ZIndex: =3
+
+                IconHome2_5 As icon.Reload:
+                    AccessibleLabel: =IconHome2_5.Tooltip
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeLightText
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    Fill: =AppTheme.palette.themeButton
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    HoverColor: =ColorFade(Self.Color, -20%)
+                    HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                    Icon: =Icon.Home
+                    LayoutMinHeight: =Parent.LayoutMinHeight
+                    OnSelect: |-
+                        =Navigate(ReferenceBrowseScreen); 
+                        UpdateContext({varPopUpDeleteReq: false}); Timer1_2.Reset; Back()
+                    PaddingBottom: =12
+                    PaddingLeft: =12
+                    PaddingRight: =12
+                    PaddingTop: =12
+                    PressedFill: =RGBA(40, 71, 52, 1)
+                    TabIndex: =0
+                    Tooltip: ="Navigate to home screen"
+                    Width: =Parent.Height
+                    X: =0.00
+                    ZIndex: =4
+
+                icoEditReq As icon.Add:
+                    AccessibleLabel: =Self.Tooltip
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeLightText
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(116, 116, 116, 1)
+                    DisplayMode: =If(DataSourceInfo([@Substances], DataSourceInfo.CreatePermission) && !displayReqItem.IsLocked, DisplayMode.Edit, DisplayMode.Disabled)
+                    Fill: =AppTheme.palette.themeButton
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    HoverColor: =ColorFade(Self.Color, -20%)
+                    HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                    Icon: =Icon.Edit
+                    LayoutMinHeight: =Parent.LayoutMinHeight
+                    OnSelect: |-
+                        =EditForm(formEditRequisition);Navigate(EditScreenRequisition, ScreenTransition.None, {editReqItem:displayReqItem}); 
+                        Set(varEditReq, true);
+                        ForAll(glrViewRequisitionItems.AllItems, Collect(ItemsCollection, {ConItemID: Value(ThisRecord.ID), ConSubstance: ThisRecord.ref_id, ConAmount: ThisRecord.Amount}));
+                    PaddingBottom: =12
+                    PaddingLeft: =12
+                    PaddingRight: =12
+                    PaddingTop: =12
+                    PressedFill: =RGBA(40, 71, 52, 1)
+                    TabIndex: =0
+                    Tooltip: ="Edit item"
+                    Width: =Parent.Height
+                    X: =0.00
+                    ZIndex: =5
+
+                icoDeleteReq As icon.Hamburger:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeLightText
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(116, 116, 116, 1)
+                    DisplayMode: =If(!displayReqItem.IsLocked, DisplayMode.Edit, DisplayMode.Disabled)
+                    Fill: =AppTheme.palette.themeDeleteButton
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    HoverColor: =ColorFade(Self.Color, -20%)
+                    HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                    Icon: =Icon.Trash
+                    LayoutMinHeight: =Parent.LayoutMinHeight
+                    OnSelect: |
+                        =If(!displayReqItem.IsLocked, UpdateContext({varPopUpDoneReq: true}));
+                    PaddingBottom: =12
+                    PaddingLeft: =12
+                    PaddingRight: =12
+                    PaddingTop: =12
+                    PressedFill: =RGBA(40, 71, 52, 1)
+                    TabIndex: =0
+                    Tooltip: ="Open Menu"
+                    Width: =Parent.Height
+                    X: =0.00
+                    ZIndex: =6
+
+            formDetailRequisition As formViewer:
+                AlignInContainer: =AlignInContainer.Start
+                BorderColor: =RGBA(40, 71, 52, 1)
+                BorderStyle: =BorderStyle.None
+                DataSource: =Requisitions
+                Fill: =RGBA(0,0,0,0)
+                FillPortions: =0
+                Height: =300
+                Item: =LookUp(Requisitions, ID = displayReqItem.ID)
+                LayoutMinHeight: =250
+                LayoutMinWidth: =400
+                NumberOfColumns: =4
+                Width: =Parent.Width
+                X: =0.00
+                Y: =
+                ZIndex: =2
+
+                "'Requisition Number_DataCard2' As typedDataCard.textualViewCard":
+                    BorderColor: =App.Theme.Colors.Darker40
+                    BorderStyle: =BorderStyle.Solid
+                    DataField: ="Requisition_x0020_Number"
+                    Default: =ThisItem.RequisitionNumber
+                    DisplayMode: =DisplayMode.View
+                    DisplayName: =DataSourceInfo([@Requisitions],DataSourceInfo.DisplayName,RequisitionNumber)
+                    Fill: =RGBA(0, 0, 0, 0)
+                    Height: =125
+                    Required: =true
+                    Width: =350
+                    X: =0
+                    Y: =0
+                    ZIndex: =1
+
+                    DataCardKey9 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeDarkText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Semibold
+                        Height: =34
+                        PaddingRight: =8.33
+                        PaddingTop: =8.33
+                        Size: =AppTheme.textsize.themeText
+                        Text: ="Req. No."
+                        Width: =379.99
+                        Wrap: =false
+                        X: =50.00
+                        Y: =10
+                        ZIndex: =1
+
+                    DataCardValue9 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =App.Theme.Font
+                        Height: =27
+                        PaddingRight: =0.00
+                        PaddingTop: =0.00
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Parent.Default
+                        Width: =379.99
+                        X: =50.00
+                        Y: =DataCardKey9.Y + DataCardKey9.Height + 5
+                        ZIndex: =2
+
+                Country_DataCard3 As typedDataCard.textualViewCard:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    BorderStyle: =BorderStyle.Solid
+                    DataField: ="Country"
+                    Default: =ThisItem.Country
+                    DisplayMode: =DisplayMode.View
+                    DisplayName: =DataSourceInfo([@Requisitions],DataSourceInfo.DisplayName,Country)
+                    Fill: =RGBA(0, 0, 0, 0)
+                    Height: =100
+                    Required: =true
+                    Width: =600
+                    X: =2
+                    Y: =0
+                    ZIndex: =1
+
+                    DataCardKey16 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeDarkText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Semibold
+                        Height: =34
+                        PaddingRight: =8.33
+                        PaddingTop: =8.33
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Parent.DisplayName
+                        Width: =379.99
+                        Wrap: =false
+                        X: =50.00
+                        Y: =10
+                        ZIndex: =1
+
+                    DataCardValue16 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =App.Theme.Font
+                        Height: =50
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Parent.Default
+                        Width: =Parent.Width - 80
+                        X: =50.00
+                        Y: =DataCardKey16.Y + DataCardKey16.Height + 5
+                        ZIndex: =2
+
+                "'Review Date_DataCard1' As typedDataCard.textualViewCard":
+                    BorderColor: =App.Theme.Colors.Darker40
+                    BorderStyle: =BorderStyle.Solid
+                    DataField: ="ReviewDate"
+                    Default: =DateValue(ThisItem.'Review Date', "da-DK")
+                    DisplayMode: =DisplayMode.View
+                    DisplayName: =DataSourceInfo([@Requisitions],DataSourceInfo.DisplayName,'Review Date')
+                    Fill: =RGBA(0, 0, 0, 0)
+                    Height: =100
+                    Required: =false
+                    Width: =350
+                    X: =2
+                    Y: =1
+                    ZIndex: =1
+
+                    DataCardKey11 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeDarkText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Semibold
+                        Height: =34
+                        PaddingRight: =8.33
+                        PaddingTop: =8.33
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Parent.DisplayName
+                        Width: =379.99
+                        Wrap: =false
+                        X: =50  
+                        Y: =10
+                        ZIndex: =1
+
+                    DataCardValue11 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =App.Theme.Font
+                        Height: =27
+                        PaddingRight: =0.00
+                        PaddingTop: =0.00
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Text(DateValue(Parent.Default), "yyyy-mm-dd")
+                        Width: =379.99
+                        X: =50.00
+                        Y: =DataCardKey11.Y + DataCardKey11.Height + 5
+                        ZIndex: =2
+
+                Reviewer_DataCard1 As typedDataCard.comboBoxViewCard:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    BorderStyle: =BorderStyle.Solid
+                    DataField: ="ReviewedBy"
+                    Default: =ThisItem.Reviewer
+                    DisplayMode: =DisplayMode.View
+                    DisplayName: =DataSourceInfo([@Requisitions],DataSourceInfo.DisplayName,Reviewer)
+                    Fill: =RGBA(0, 0, 0, 0)
+                    Height: =100
+                    Required: =false
+                    Update: =DataCardValue10.Selected
+                    Width: =600
+                    X: =3
+                    Y: =1
+                    ZIndex: =1
+
+                    DataCardKey10 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeDarkText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Semibold
+                        Height: =34
+                        PaddingRight: =8.33
+                        PaddingTop: =8.33
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Parent.DisplayName
+                        Width: =379.99
+                        Wrap: =false
+                        X: =50.00
+                        Y: =10
+                        ZIndex: =1
+
+                    DataCardValue10 As combobox:
+                        BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                        ChevronBackground: =App.Theme.Colors.Primary
+                        ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                        ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                        ChevronFill: =App.Theme.Colors.PrimaryForeground
+                        ChevronHoverBackground: =App.Theme.Colors.Darker10
+                        ChevronHoverFill: =App.Theme.Colors.PrimaryForeground
+                        DefaultSelectedItems: =Parent.Default
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayFields: =["DisplayName"]
+                        DisplayMode: =Parent.DisplayMode
+                        Fill: =
+                        Font: =App.Theme.Font
+                        Height: =27
+                        HoverColor: =RGBA(0, 0, 0, 1)
+                        HoverFill: =App.Theme.Colors.Lighter70
+                        Items: =Choices([@Requisitions].Reviewer)
+                        PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 5)
+                        PaddingRight: =0.00
+                        PaddingTop: =0.00
+                        PressedColor: =App.Theme.Colors.PrimaryForeground
+                        PressedFill: =App.Theme.Colors.Darker30
+                        SearchFields: =["DisplayName"]
+                        SearchItems: =Choices(Requisitions.Reviewer,DataCardValue10.SearchText)
+                        SelectionColor: =App.Theme.Colors.PrimaryForeground
+                        SelectionFill: =App.Theme.Colors.Primary
+                        SelectMultiple: =false
+                        Size: =AppTheme.textsize.themeText
+                        Width: =Parent.Width - 80
+                        X: =50.00
+                        Y: =DataCardKey10.Y + DataCardKey10.Height + 5
+                        ZIndex: =2
+
+                    ErrorMessage11 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        Height: =10
+                        Live: =Live.Assertive
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0.00
+                        PaddingTop: =0.00
+                        Size: =23.33
+                        Text: =Parent.Error
+                        Visible: =Parent.DisplayMode=DisplayMode.Edit
+                        Width: =379.99
+                        X: =50.00
+                        Y: =DataCardValue10.Y + DataCardValue10.Height
+                        ZIndex: =3
+
+                    StarVisible11 As label:
+                        Align: =Align.Center
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        Height: =DataCardKey10.Height
+                        PaddingRight: =8.33
+                        PaddingTop: =8.33
+                        Size: =AppTheme.textsize.themeText
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =50.00
+                        Wrap: =false
+                        X: =0.00
+                        Y: =DataCardKey10.Y
+                        ZIndex: =4
+
+                Receiver_DataCard2 As typedDataCard.textualViewCard:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    BorderStyle: =BorderStyle.Solid
+                    DataField: ="Receiver"
+                    Default: =ThisItem.Receiver
+                    DisplayMode: =DisplayMode.View
+                    DisplayName: =DataSourceInfo([@Requisitions],DataSourceInfo.DisplayName,Receiver)
+                    Fill: =RGBA(0, 0, 0, 0)
+                    Height: =100
+                    Required: =true
+                    Width: =950
+                    X: =1
+                    Y: =0
+                    ZIndex: =3
+
+                    DataCardKey25 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeDarkText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Semibold
+                        Height: =34
+                        PaddingRight: =8.33
+                        PaddingTop: =8.33
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Parent.DisplayName
+                        Width: =379.99
+                        Wrap: =false
+                        X: =50.00
+                        Y: =10
+                        ZIndex: =1
+
+                    DataCardValue25 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =App.Theme.Font
+                        Height: =27
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Parent.Default
+                        Width: =Parent.Width - 80
+                        X: =50.00
+                        Y: =DataCardKey25.Y + DataCardKey25.Height + 5
+                        ZIndex: =2
+
+                Created_DataCard1 As typedDataCard.textualViewCard:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    BorderStyle: =BorderStyle.Solid
+                    DataField: ="Created"
+                    Default: =DateValue(ThisItem.Created, "da-DK")
+                    DisplayMode: =DisplayMode.View
+                    DisplayName: =DataSourceInfo([@Requisitions],DataSourceInfo.DisplayName,Created)
+                    Fill: =RGBA(0, 0, 0, 0)
+                    Height: =125
+                    Required: =false
+                    Width: =350
+                    X: =0
+                    Y: =1
+                    ZIndex: =3
+
+                    DataCardKey41 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeDarkText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Semibold
+                        Height: =34
+                        PaddingRight: =8.33
+                        PaddingTop: =8.33
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Parent.DisplayName
+                        Width: =379.99
+                        Wrap: =false
+                        X: =50.00
+                        Y: =10
+                        ZIndex: =1
+
+                    DataCardValue41 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =App.Theme.Font
+                        Height: =27
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Text(DateValue(Parent.Default), "yyyy-mm-dd")
+                        Width: =379.99
+                        X: =50.00
+                        Y: =DataCardKey41.Y + DataCardKey41.Height + 5
+                        ZIndex: =2
+
+                "'Created By_DataCard1' As typedDataCard.comboBoxViewCard":
+                    BorderColor: =App.Theme.Colors.Darker40
+                    BorderStyle: =BorderStyle.Solid
+                    DataField: ="Author"
+                    Default: =ThisItem.'Created By'
+                    DisplayMode: =DisplayMode.View
+                    DisplayName: =DataSourceInfo([@Requisitions],DataSourceInfo.DisplayName,'Created By')
+                    Fill: =RGBA(0, 0, 0, 0)
+                    Height: =100
+                    Required: =false
+                    Update: =DataCardValue40.Selected
+                    Width: =600
+                    X: =1
+                    Y: =1
+                    ZIndex: =3
+
+                    DataCardKey40 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeDarkText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Semibold
+                        Height: =34
+                        PaddingRight: =8.33
+                        PaddingTop: =8.33
+                        Size: =AppTheme.textsize.themeText
+                        Text: =Parent.DisplayName
+                        Width: =379.99
+                        Wrap: =false
+                        X: =50.00
+                        Y: =10
+                        ZIndex: =1
+
+                    DataCardValue40 As combobox:
+                        BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                        ChevronBackground: =App.Theme.Colors.Primary
+                        ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                        ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                        ChevronFill: =App.Theme.Colors.PrimaryForeground
+                        ChevronHoverBackground: =App.Theme.Colors.Darker10
+                        ChevronHoverFill: =App.Theme.Colors.PrimaryForeground
+                        DefaultSelectedItems: =Parent.Default
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayFields: =["DisplayName","Email","Picture"]
+                        DisplayMode: =Parent.DisplayMode
+                        Fill: =RGBA(0,0,0,0)
+                        Font: =App.Theme.Font
+                        Height: =27
+                        HoverColor: =RGBA(0, 0, 0, 1)
+                        HoverFill: =App.Theme.Colors.Lighter70
+                        Items: =Choices([@Requisitions].'Created By')
+                        PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 5)
+                        PressedColor: =App.Theme.Colors.PrimaryForeground
+                        PressedFill: =App.Theme.Colors.Darker30
+                        SearchFields: =["DisplayName"]
+                        SearchItems: =Choices(Requisitions.'Created By',DataCardValue40.SearchText)
+                        SelectionColor: =App.Theme.Colors.PrimaryForeground
+                        SelectionFill: =App.Theme.Colors.Primary
+                        SelectMultiple: =false
+                        Size: =AppTheme.textsize.themeText
+                        Width: =379.99
+                        X: =50.00
+                        Y: =DataCardKey40.Y + DataCardKey40.Height + 5
+                        ZIndex: =2
+
+                    ErrorMessage27 As label:
+                        AutoHeight: =true
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        Height: =10
+                        Live: =Live.Assertive
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0.00
+                        PaddingTop: =0.00
+                        Size: =23.33
+                        Text: =Parent.Error
+                        Visible: =Parent.DisplayMode=DisplayMode.Edit
+                        Width: =379.99
+                        X: =50.00
+                        Y: =DataCardValue40.Y + DataCardValue40.Height
+                        ZIndex: =3
+
+                    StarVisible27 As label:
+                        Align: =Align.Center
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        Font: =App.Theme.Font
+                        Height: =DataCardKey40.Height
+                        PaddingRight: =8.33
+                        PaddingTop: =8.33
+                        Size: =AppTheme.textsize.themeText
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =50.00
+                        Wrap: =false
+                        X: =0.00
+                        Y: =DataCardKey40.Y
+                        ZIndex: =4
+
+            conRequisitionItemsHeader_1 As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                DropShadow: =DropShadow.Light
+                Fill: =AppTheme.palette.themeTitleBar
+                FillPortions: =0
+                Height: =60
+                LayoutMinHeight: =100
+                LayoutMinWidth: =Parent.Width
+                LayoutMode: =LayoutMode.Auto
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                Width: =Parent.Width
+                X: =0.00
+                ZIndex: =3
+
+                lblSubstanceName_1 As label:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeDarkText
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =DisplayMode.View
+                    Font: =App.Theme.Font
+                    FontWeight: =FontWeight.Semibold
+                    Height: =Parent.Height
+                    LayoutMinWidth: =ddTitleDisplay.Width
+                    PaddingLeft: =12
+                    Size: =AppTheme.textsize.themeTitle2
+                    Text: ="Substance"
+                    Width: =ddTitleDisplay.Width
+                    X: =0.00
+                    ZIndex: =1
+
+                lblBatchNumber_1 As label:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeDarkText
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =DisplayMode.View
+                    Font: =App.Theme.Font
+                    FontWeight: =FontWeight.Semibold
+                    Height: =Parent.Height
+                    LayoutMinWidth: =ddBatchDisplay.Width
+                    Size: =AppTheme.textsize.themeTitle2
+                    Text: ="Batch"
+                    Width: =ddBatchDisplay.Width
+                    X: =0.00
+                    ZIndex: =2
+
+                lablUnitVial_1 As label:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeDarkText
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =DisplayMode.View
+                    Font: =App.Theme.Font
+                    FontWeight: =FontWeight.Semibold
+                    Height: =Parent.Height
+                    LayoutMinWidth: =ddVialSizeDisplay.Width
+                    Size: =AppTheme.textsize.themeTitle2
+                    Text: ="Vial Size"
+                    Width: =ddVialSizeDisplay.Width
+                    X: =0.00
+                    ZIndex: =3
+
+                lblAmountInput_1 As label:
+                    Align: =Align.Center
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeDarkText
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =DisplayMode.View
+                    Font: =App.Theme.Font
+                    FontWeight: =FontWeight.Semibold
+                    Height: =Parent.Height
+                    LayoutMinWidth: =lblAmount.Width
+                    Size: =AppTheme.textsize.themeTitle2
+                    Text: ="Amount"
+                    Width: =lblAmount.Width
+                    X: =0.00
+                    ZIndex: =4
+
+            "glrViewRequisitionItems As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+                BorderColor: =App.Theme.Colors.Darker40
+                BorderStyle: =BorderStyle.None
+                DelayItemLoading: =true
+                DisplayMode: =DisplayMode.View
+                Fill: =RGBA(255, 255, 255, 1)
+                FillPortions: =7
+                Items: =Filter(RequisitionItems, req_id.Value = DataCardValue9.Text)
+                Layout: =Layout.Vertical
+                LayoutMinHeight: =287
+                LayoutMinWidth: =320
+                LoadingSpinner: =LoadingSpinner.Data
+                TemplatePadding: =0
+                TemplateSize: =60
+                Width: =0.00
+                X: =0.00
+                ZIndex: =4
+
+                Separator2 As rectangle:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Fill: =AppTheme.palette.themeTitleBar
+                    Height: =2
+                    OnSelect: =Select(Parent)
+                    Width: =Parent.Width
+                    X: =0.00
+                    Y: =Parent.TemplateHeight - Self.Height
+                    ZIndex: =5
+
+                ddBatchDisplay As dropdown:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    ChevronBackground: =App.Theme.Colors.Primary
+                    ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                    ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                    ChevronFill: =App.Theme.Colors.PrimaryForeground
+                    ChevronHoverBackground: =App.Theme.Colors.Darker10
+                    ChevronHoverFill: =App.Theme.Colors.PrimaryForeground
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =DisplayMode.View
+                    Fill: =
+                    Font: =App.Theme.Font
+                    Height: =Parent.TemplateHeight
+                    HoverColor: =RGBA(0, 0, 0, 1)
+                    HoverFill: =App.Theme.Colors.Lighter70
+                    Items: =Filter(Substances, ID = ddTitleDisplay.Selected.ID)
+                    PaddingBottom: =5
+                    PaddingLeft: =12
+                    PaddingRight: =5
+                    PaddingTop: =5
+                    PressedColor: =App.Theme.Colors.PrimaryForeground
+                    PressedFill: =App.Theme.Colors.Darker30
+                    SelectionColor: =App.Theme.Colors.PrimaryForeground
+                    SelectionFill: =App.Theme.Colors.Primary
+                    Size: =AppTheme.textsize.themeText
+                    Width: =300
+                    X: =ddTitleDisplay.Width
+                    ZIndex: =8
+
+                ddTitleDisplay As dropdown:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    ChevronBackground: =App.Theme.Colors.Primary
+                    ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                    ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                    ChevronFill: =App.Theme.Colors.PrimaryForeground
+                    ChevronHoverBackground: =App.Theme.Colors.Darker10
+                    ChevronHoverFill: =App.Theme.Colors.PrimaryForeground
+                    Default: =
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =DisplayMode.View
+                    Fill: =
+                    Font: =App.Theme.Font
+                    Height: =Parent.TemplateHeight
+                    HoverColor: =RGBA(0, 0, 0, 1)
+                    HoverFill: =App.Theme.Colors.Lighter70
+                    Items: =LookUp(Substances, ID = Value(ThisItem.ref_id.Value))
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =5
+                    PaddingLeft: =12
+                    PaddingRight: =5
+                    PaddingTop: =5
+                    PressedColor: =App.Theme.Colors.PrimaryForeground
+                    PressedFill: =App.Theme.Colors.Darker30
+                    SelectionColor: =App.Theme.Colors.PrimaryForeground
+                    SelectionFill: =App.Theme.Colors.Primary
+                    Size: =AppTheme.textsize.themeText
+                    Width: =900
+                    ZIndex: =9
+
+                lblAmount As label:
+                    Align: =Align.Center
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =RGBA(0, 0, 0, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    Font: =App.Theme.Font
+                    Height: =Parent.TemplateHeight
+                    OnSelect: =Select(Parent)
+                    Size: =AppTheme.textsize.themeText
+                    Text: =ThisItem.Amount
+                    Width: =300
+                    X: =ddTitleDisplay.Width + ddBatchDisplay.Width + ddVialSizeDisplay.Width
+                    ZIndex: =10
+
+                ddVialSizeDisplay As dropdown:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    ChevronBackground: =App.Theme.Colors.Primary
+                    ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                    ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                    ChevronFill: =App.Theme.Colors.PrimaryForeground
+                    ChevronHoverBackground: =App.Theme.Colors.Darker10
+                    ChevronHoverFill: =App.Theme.Colors.PrimaryForeground
+                    Default: =
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =DisplayMode.View
+                    Fill: =
+                    Font: =App.Theme.Font
+                    Height: =Parent.TemplateHeight
+                    HoverColor: =RGBA(0, 0, 0, 1)
+                    HoverFill: =App.Theme.Colors.Lighter70
+                    Items: =Filter(Substances, ID = ddTitleDisplay.Selected.ID)
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =5
+                    PaddingLeft: =12
+                    PaddingRight: =5
+                    PaddingTop: =5
+                    PressedColor: =App.Theme.Colors.PrimaryForeground
+                    PressedFill: =App.Theme.Colors.Darker30
+                    SelectionColor: =App.Theme.Colors.PrimaryForeground
+                    SelectionFill: =App.Theme.Colors.Primary
+                    Size: =AppTheme.textsize.themeText
+                    Width: =400
+                    X: =ddTitleDisplay.Width + ddBatchDisplay.Width
+                    ZIndex: =11
+
+    conPopUpDeleteOptionReq As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =AppTheme.palette.themeButton
+        BorderThickness: =2
+        DropShadow: =DropShadow.ExtraBold
+        Fill: =AppTheme.palette.white
+        LayoutAlignItems: =LayoutAlignItems.Center
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: |
+            =0
+        LayoutJustifyContent: =LayoutJustifyContent.Center
+        LayoutMode: =LayoutMode.Auto
+        PaddingRight: =0.00
+        PaddingTop: =0.00
+        Visible: =varPopUpDoneReq
+        Width: =651.66
+        X: =633.33
+        Y: =393
+        ZIndex: =12
+
+        lblDeleteReq As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(40, 71, 52, 1)
+            BorderStyle: =
+            Color: =AppTheme.palette.white
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =AppTheme.palette.themeButton
+            Font: =App.Theme.Font
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            OnSelect: =
+            Size: =13
+            Text: ="Do you want to delete this requisition?"
+            Width: =651.66
+            X: =0.00
+            ZIndex: =2
+
+        conPopUpDeleteOptionBtnReq As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =20
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            Width: =651.66
+            X: =0.00
+            ZIndex: =5
+
+            btnOKDeleteReq As button:
+                BorderColor: =RGBA(40, 71, 52, 1)
+                BorderStyle: =
+                Color: =App.Theme.Colors.PrimaryForeground
+                DisabledBorderColor: =RGBA(244, 244, 244, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                Fill: =AppTheme.palette.themeDeleteButton
+                Font: =App.Theme.Font
+                FontWeight: =FontWeight.Semibold
+                Height: =65
+                HoverBorderColor: =App.Theme.Colors.Darker10
+                HoverColor: =App.Theme.Colors.PrimaryForeground
+                HoverFill: =App.Theme.Colors.Darker10
+                OnSelect: |-
+                    =Remove([@Requisitions], displayReqItem);
+                    Remove(RequisitionItems,
+                        Filter(RequisitionItems, req_id.Value = Blank())
+                    );
+                    If (!IsEmpty(Errors([@Requisitions], displayReqItem)), 
+                        Notify("Theres was an error deleting the requisition", NotificationType.Error)  
+                    );
+                    UpdateContext({varPopUpDoneReq: false, varPopUpDeleteReq: true}); 
+                PaddingRight: =7.03
+                PaddingTop: =7.03
+                PressedBorderColor: =App.Theme.Colors.Darker40
+                PressedColor: =Self.Color
+                PressedFill: =ColorFade(Self.Fill, -50%)
+                Size: =15
+                Text: ="Delete"
+                Width: =276.90
+                X: =0.00
+                Y: =71
+                ZIndex: =1
+
+            btnCancelDeleteReq As button:
+                BorderColor: =RGBA(40, 71, 52, 1)
+                BorderStyle: =
+                Color: =App.Theme.Colors.PrimaryForeground
+                DisabledBorderColor: =RGBA(244, 244, 244, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                Fill: =AppTheme.palette.themeButton
+                Font: =App.Theme.Font
+                FontWeight: =FontWeight.Semibold
+                Height: =65
+                HoverBorderColor: =App.Theme.Colors.Darker10
+                HoverColor: =App.Theme.Colors.PrimaryForeground
+                HoverFill: =App.Theme.Colors.Darker10
+                OnSelect: |-
+                    =UpdateContext({varPopUpDoneReq: false})
+                PaddingRight: =7.03
+                PaddingTop: =7.03
+                PressedBorderColor: =App.Theme.Colors.Darker40
+                PressedColor: =Self.Color
+                PressedFill: =ColorFade(Self.Fill, -50%)
+                Size: =15
+                Text: ="Cancel"
+                Width: =281.11
+                X: =0.00
+                Y: =71
+                ZIndex: =2
+
+    PopUpMessageDelete_1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =13
+
+        Rectangle3_2 As rectangle:
+            BorderColor: =App.Theme.Colors.Darker40
+            Fill: =AppTheme.palette.themePopUp
+            Height: =Parent.Height
+            Visible: =varPopUpDeleteReq
+            Width: =Parent.Width
+            X: =0.00
+            ZIndex: =6
+
+        iconCircle1_2 As circle.Circle:
+            BorderColor: =App.Theme.Colors.Darker40
+            Fill: =AppTheme.palette.themeHeader
+            Height: =150
+            Visible: =varPopUpDeleteReq
+            Width: =150
+            X: =(Max(App.Width, App.MinScreenWidth)/2 - Self.Width/2) 
+            Y: =(Max(App.Height, App.MinScreenHeight)/2 + Self.Height/2) * 0.7
+            ZIndex: =7
+
+        iconCheck1_2 As icon.Check:
+            BorderColor: =App.Theme.Colors.Darker40
+            Color: =App.Theme.Colors.Darker30
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(244, 244, 244, 1)
+            Height: =150
+            Icon: =Icon.Check
+            PaddingBottom: =Self.PaddingTop
+            PaddingLeft: =Self.PaddingTop
+            PaddingRight: =25.30
+            PaddingTop: =25.30
+            Visible: =varPopUpDeleteReq
+            Width: =150
+            X: =(Max(App.Width, App.MinScreenWidth)/2 - Self.Width/2) 
+            Y: =(Max(App.Height, App.MinScreenHeight)/2 + Self.Height/2) *0.7
+            ZIndex: =8
+
+        LblSuccessMsg1_2 As label:
+            Align: =Align.Center
+            AutoHeight: =true
+            BorderColor: =App.Theme.Colors.Darker40
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Font: =App.Theme.Font
+            Height: =50
+            Size: =13
+            Text: ="Requisition has been deleted!"
+            Visible: =varPopUpDeleteReq
+            Width: =Parent.Width
+            X: =0.00
+            Y: =iconCheck1_2.Y + iconCheck1_2.Height + 50
+            ZIndex: =9
+
+        Timer1_2 As timer:
+            AutoPause: =false
+            BorderColor: =App.Theme.Colors.Primary
+            Color: =App.Theme.Colors.PrimaryForeground
+            DisabledBorderColor: =RGBA(244, 244, 244, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Duration: =2000
+            Fill: =App.Theme.Colors.Primary
+            Font: =App.Theme.Font
+            Height: =70
+            HoverBorderColor: =App.Theme.Colors.Darker10
+            HoverColor: =App.Theme.Colors.PrimaryForeground
+            HoverFill: =App.Theme.Colors.Darker10
+            OnTimerEnd: |-
+                =UpdateContext({varPopUpDeleteReq: false}); Timer1_2.Reset; Back()
+            PaddingRight: =7.03
+            PaddingTop: =7.03
+            PressedBorderColor: =App.Theme.Colors.Darker40
+            PressedColor: =Self.Color
+            PressedFill: =App.Theme.Colors.Darker40
+            Reset: =true
+            Start: =varPopUpDeleteReq
+            Visible: =false
+            Width: =393.57
+            X: =283.94
+            Y: =136
+            ZIndex: =10
+

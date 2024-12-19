@@ -1,0 +1,863 @@
+TestProgramDetailScreen As screen:
+    Fill: =AppTheme.palette.themeScreenBackground
+    LoadingSpinnerColor: =App.Theme.Colors.Primary
+    OnVisible: =
+
+    conTestProgramScreen As groupContainer.verticalAutoLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Height: =Parent.Height
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        PaddingRight: =0.00
+        PaddingTop: =0.00
+        Width: =Parent.Width
+        X: =0.00
+        ZIndex: =1
+
+        conTestScreenHeader As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            DropShadow: =DropShadow.Light
+            FillPortions: =0
+            Height: =65
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =70
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            Width: =Parent.Width
+            X: =0.00
+            ZIndex: =1
+
+            conTestScreenHeaderBar As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                Fill: =App.Theme.Colors.Primary
+                FillPortions: =0
+                Height: =Parent.Height
+                LayoutMinHeight: =50
+                LayoutMinWidth: =Parent.LayoutMinWidth
+                LayoutMode: =LayoutMode.Auto
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                Width: =Parent.Width
+                X: =0.00
+                ZIndex: =1
+
+                IconBack As icon.Reload:
+                    AccessibleLabel: =IconBack.Tooltip
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeLightText
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    HoverColor: =ColorFade(Self.Color, -20%)
+                    HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                    Icon: =Icon.ArrowLeft
+                    OnSelect: |
+                        =Back();
+                    PaddingBottom: =12
+                    PaddingLeft: =12
+                    PaddingRight: =12
+                    PaddingTop: =12
+                    PressedFill: =RGBA(40, 71, 52, 1)
+                    TabIndex: =0
+                    Tooltip: ="Navigate to home screen"
+                    Width: =Parent.Height
+                    X: =0.00
+                    ZIndex: =1
+
+                lblTestTitle As label:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.themeLightText
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =DisplayMode.View
+                    FillPortions: =18
+                    Font: =App.Theme.Font
+                    FontWeight: =FontWeight.Semibold
+                    Height: =Parent.Height
+                    LayoutMinHeight: =Parent.LayoutMinHeight
+                    PaddingLeft: =25
+                    Size: =AppTheme.textsize.themeHeader
+                    Text: ="Test Program"
+                    Width: =0.00
+                    Wrap: =false
+                    X: =0.00
+                    ZIndex: =2
+
+                Icon2 As icon.Save:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.white
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    Fill: =AppTheme.palette.themeButtonComplementarySecondary
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                    Icon: =Icon.Save
+                    OnSelect: |-
+                        =If( ! IsError(SubmitForm(formEditTestProgram)),
+                        UpdateContext({varPopUpSuccessSubstance: true}))
+                    PaddingBottom: =12
+                    PaddingLeft: =12
+                    PaddingRight: =12
+                    PaddingTop: =12
+                    Tooltip: ="Save changes to substance test program"
+                    Width: =Parent.Height
+                    X: =0.00
+                    ZIndex: =3
+
+                Icon1 As icon.Cancel:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    Color: =AppTheme.palette.white
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    Fill: =AppTheme.palette.themeDeleteButton
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                    Icon: =Icon.Cancel
+                    OnSelect: |-
+                        =UpdateContext({varPopUpSuccessSubstance: false}); Timer1_5.Reset; Back();
+                    PaddingBottom: =12
+                    PaddingLeft: =12
+                    PaddingRight: =12
+                    PaddingTop: =12
+                    Tooltip: ="Discard changes to substance test program"
+                    Width: =Parent.Height
+                    X: =0.00
+                    ZIndex: =4
+
+        conTestScreenContent As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            DropShadow: =DropShadow.Light
+            FillPortions: =12
+            LayoutGap: =12
+            LayoutMinHeight: =100
+            LayoutMinWidth: =
+            LayoutMode: =LayoutMode.Auto
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Width: =Parent.Width
+            X: =0.00
+            ZIndex: =3
+
+            conTestScreenMainContent As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =12
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =12
+                PaddingLeft: =
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Width: =0.00
+                X: =0.00
+                ZIndex: =3
+
+                conTestScreenTitleBar As groupContainer.horizontalAutoLayoutContainer:
+                    Fill: =AppTheme.palette.themeTitleBar
+                    FillPortions: =0
+                    Height: =50
+                    LayoutAlignItems: =LayoutAlignItems.End
+                    LayoutGap: =12
+                    LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingRight: =0.00
+                    PaddingTop: =0.00
+                    Width: =0.00
+                    X: =0.00
+                    ZIndex: =1
+
+                    lblTestContentTitle As label:
+                        AlignInContainer: =AlignInContainer.Center
+                        BorderColor: =App.Theme.Colors.Darker40
+                        Color: =AppTheme.palette.themeDarkText
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =
+                        DisplayMode: =DisplayMode.View
+                        Font: =App.Theme.Font
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.Height
+                        LayoutMinWidth: =Parent.LayoutMinWidth
+                        PaddingLeft: =12
+                        Size: =AppTheme.textsize.themeTitle
+                        Text: =Concatenate(testSubstance.Title, " - ", testSubstance.Batch)
+                        Width: =833.33
+                        X: =0.00
+                        ZIndex: =1
+
+                formEditTestProgram As form:
+                    BorderColor: =App.Theme.Colors.Darker40
+                    DataSource: =Substances
+                    Fill: =RGBA(0,0,0,0)
+                    Item: =LookUp(Substances, ID = testSubstance.ID)
+                    LayoutMinHeight: =250
+                    LayoutMinWidth: =400
+                    OnSuccess: =
+                    Width: =0.00
+                    X: =0.00
+                    ZIndex: =4
+
+                    Retest2_DataCard1 As typedDataCard.dateEditCard:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Retest2"
+                        Default: =ThisItem.Retest2
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: ="2. Retest"
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =150
+                        Required: =false
+                        Update: =DataCardValue39.SelectedDate
+                        Width: =500
+                        X: =1
+                        Y: =0
+                        ZIndex: =1
+
+                        DataCardKey39 As label:
+                            AutoHeight: =true
+                            Color: =AppTheme.palette.themeDarkText
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =34
+                            Size: =AppTheme.textsize.themeText
+                            Text: =Parent.DisplayName
+                            Width: =386.67
+                            Wrap: =false
+                            X: =50.00
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue39 As datepicker:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            CalendarHeaderFill: =App.Theme.Colors.Primary
+                            Color: =RGBA(0, 0, 0, 1)
+                            DefaultDate: =Parent.Default
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            EndYear: =Year(Today())+100
+                            Font: =App.Theme.Font
+                            Format: ="yyyy-mm-dd"
+                            Height: =50
+                            HoverDateFill: =App.Theme.Colors.Lighter70
+                            IconBackground: =AppTheme.palette.themeButton
+                            IconFill: =App.Theme.Colors.PrimaryForeground
+                            InputTextPlaceholder: =If(IsBlank(Self.SelectedDate), "YYYY-MM-DD")
+                            IsEditable: =true
+                            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                            PaddingTop: =5
+                            SelectedDateFill: =App.Theme.Colors.Primary
+                            Size: =AppTheme.textsize.themeText
+                            StartOfWeek: =StartOfWeek.Monday
+                            StartYear: =Year(Today())
+                            Tooltip: =Parent.DisplayName
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardKey39.Y + DataCardKey39.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage25 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0.00
+                            PaddingTop: =0.00
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardValue39.Y + DataCardValue39.Height
+                            ZIndex: =3
+
+                        StarVisible25 As label:
+                            Align: =Align.Center
+                            Color: =App.Theme.Colors.Darker30
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =DataCardKey39.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =50.00
+                            Wrap: =false
+                            X: =0.00
+                            Y: =DataCardKey39.Y
+                            ZIndex: =4
+
+                    Retest3_DataCard1 As typedDataCard.dateEditCard:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Retest3"
+                        Default: =ThisItem.Retest3
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: ="3. Retest"
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =false
+                        Update: =DataCardValue42.SelectedDate
+                        Width: =500
+                        X: =2
+                        Y: =0
+                        ZIndex: =1
+
+                        DataCardKey42 As label:
+                            AutoHeight: =true
+                            Color: =AppTheme.palette.themeDarkText
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =34
+                            Size: =AppTheme.textsize.themeText
+                            Text: =Parent.DisplayName
+                            Width: =386.67
+                            Wrap: =false
+                            X: =50.00
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue42 As datepicker:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            CalendarHeaderFill: =App.Theme.Colors.Primary
+                            Color: =RGBA(0, 0, 0, 1)
+                            DefaultDate: =Parent.Default
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            EndYear: =Year(Today())+100
+                            Font: =App.Theme.Font
+                            Format: ="yyyy-mm-dd"
+                            Height: =50
+                            HoverDateFill: =App.Theme.Colors.Lighter70
+                            IconBackground: =AppTheme.palette.themeButton
+                            IconFill: =App.Theme.Colors.PrimaryForeground
+                            InputTextPlaceholder: =If(IsBlank(Self.SelectedDate), "YYYY-MM-DD")
+                            IsEditable: =true
+                            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                            PaddingTop: =5
+                            SelectedDateFill: =App.Theme.Colors.Primary
+                            Size: =AppTheme.textsize.themeText
+                            StartOfWeek: =StartOfWeek.Monday
+                            StartYear: =Year(Today())
+                            Tooltip: =Parent.DisplayName
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardKey42.Y + DataCardKey42.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage26 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0.00
+                            PaddingTop: =0.00
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardValue42.Y + DataCardValue42.Height
+                            ZIndex: =3
+
+                        StarVisible26 As label:
+                            Align: =Align.Center
+                            Color: =App.Theme.Colors.Darker30
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =DataCardKey42.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =50.00
+                            Wrap: =false
+                            X: =0.00
+                            Y: =DataCardKey42.Y
+                            ZIndex: =4
+
+                    Retest4_DataCard1 As typedDataCard.dateEditCard:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Retest4"
+                        Default: =ThisItem.Retest4
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: ="4. Retest"
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =false
+                        Update: =DataCardValue43.SelectedDate
+                        Width: =500
+                        X: =0
+                        Y: =1
+                        ZIndex: =1
+
+                        DataCardKey43 As label:
+                            AutoHeight: =true
+                            Color: =AppTheme.palette.themeDarkText
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =34
+                            Size: =AppTheme.textsize.themeText
+                            Text: =Parent.DisplayName
+                            Width: =386.67
+                            Wrap: =false
+                            X: =50.00
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue43 As datepicker:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            CalendarHeaderFill: =App.Theme.Colors.Primary
+                            Color: =RGBA(0, 0, 0, 1)
+                            DefaultDate: =Parent.Default
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            EndYear: =Year(Today())+100
+                            Font: =App.Theme.Font
+                            Format: ="yyyy-mm-dd"
+                            Height: =50
+                            HoverDateFill: =App.Theme.Colors.Lighter70
+                            IconBackground: =AppTheme.palette.themeButton
+                            IconFill: =App.Theme.Colors.PrimaryForeground
+                            InputTextPlaceholder: =If(IsBlank(Self.SelectedDate), "YYYY-MM-DD")
+                            IsEditable: =true
+                            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                            PaddingTop: =5
+                            SelectedDateFill: =App.Theme.Colors.Primary
+                            Size: =AppTheme.textsize.themeText
+                            StartOfWeek: =StartOfWeek.Monday
+                            StartYear: =Year(Today())
+                            Tooltip: =Parent.DisplayName
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardKey43.Y + DataCardKey43.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage28 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0.00
+                            PaddingTop: =0.00
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardValue43.Y + DataCardValue43.Height
+                            ZIndex: =3
+
+                        StarVisible28 As label:
+                            Align: =Align.Center
+                            Color: =App.Theme.Colors.Darker30
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =DataCardKey43.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =50.00
+                            Wrap: =false
+                            X: =0.00
+                            Y: =DataCardKey43.Y
+                            ZIndex: =4
+
+                    Retest5_DataCard1 As typedDataCard.dateEditCard:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Retest5"
+                        Default: =ThisItem.Retest5
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: ="5. Retest"
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =false
+                        Update: =DataCardValue44.SelectedDate
+                        Width: =500
+                        X: =1
+                        Y: =1
+                        ZIndex: =1
+
+                        DataCardKey44 As label:
+                            AutoHeight: =true
+                            Color: =AppTheme.palette.themeDarkText
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =34
+                            Size: =AppTheme.textsize.themeText
+                            Text: =Parent.DisplayName
+                            Width: =386.67
+                            Wrap: =false
+                            X: =50.00
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue44 As datepicker:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            CalendarHeaderFill: =App.Theme.Colors.Primary
+                            Color: =RGBA(0, 0, 0, 1)
+                            DefaultDate: =Parent.Default
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            EndYear: =Year(Today())+100
+                            Font: =App.Theme.Font
+                            Format: ="yyyy-mm-dd"
+                            Height: =50
+                            HoverDateFill: =App.Theme.Colors.Lighter70
+                            IconBackground: =AppTheme.palette.themeButton
+                            IconFill: =App.Theme.Colors.PrimaryForeground
+                            InputTextPlaceholder: =If(IsBlank(Self.SelectedDate), "YYYY-MM-DD")
+                            IsEditable: =true
+                            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                            PaddingTop: =5
+                            SelectedDateFill: =App.Theme.Colors.Primary
+                            Size: =AppTheme.textsize.themeText
+                            StartOfWeek: =StartOfWeek.Monday
+                            StartYear: =Year(Today())
+                            Tooltip: =Parent.DisplayName
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardKey44.Y + DataCardKey44.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage29 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0.00
+                            PaddingTop: =0.00
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardValue44.Y + DataCardValue44.Height
+                            ZIndex: =3
+
+                        StarVisible29 As label:
+                            Align: =Align.Center
+                            Color: =App.Theme.Colors.Darker30
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =DataCardKey44.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =50.00
+                            Wrap: =false
+                            X: =0.00
+                            Y: =DataCardKey44.Y
+                            ZIndex: =4
+
+                    Retest1_DataCard1 As typedDataCard.dateEditCard:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Retest1"
+                        Default: =ThisItem.Retest1
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: ="1. Retest"
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =false
+                        Update: =DataCardValue21.SelectedDate
+                        Width: =500
+                        X: =0
+                        Y: =0
+                        ZIndex: =5
+
+                        DataCardKey21 As label:
+                            AutoHeight: =true
+                            Color: =AppTheme.palette.themeDarkText
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =34
+                            Size: =AppTheme.textsize.themeText
+                            Text: =Parent.DisplayName
+                            Width: =386.67
+                            Wrap: =false
+                            X: =50.00
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue21 As datepicker:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            CalendarHeaderFill: =App.Theme.Colors.Primary
+                            Color: =RGBA(0, 0, 0, 1)
+                            DefaultDate: =Parent.Default
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            EndYear: =Year(Today())+100
+                            Font: =App.Theme.Font
+                            Format: ="yyyy-mm-dd"
+                            Height: =50
+                            HoverDateFill: =App.Theme.Colors.Lighter70
+                            IconBackground: =AppTheme.palette.themeButton
+                            IconFill: =App.Theme.Colors.PrimaryForeground
+                            InputTextPlaceholder: =If(IsBlank(Self.SelectedDate), "YYYY-MM-DD")
+                            IsEditable: =true
+                            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                            PaddingTop: =5
+                            SelectedDateFill: =App.Theme.Colors.Primary
+                            Size: =AppTheme.textsize.themeText
+                            StartOfWeek: =StartOfWeek.Monday
+                            StartYear: =Year(Today())
+                            Tooltip: =Parent.DisplayName
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardKey21.Y + DataCardKey21.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage22 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0.00
+                            PaddingTop: =0.00
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardValue21.Y + DataCardValue21.Height
+                            ZIndex: =3
+
+                        StarVisible22 As label:
+                            Align: =Align.Center
+                            Color: =App.Theme.Colors.Darker30
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =DataCardKey21.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =50.00
+                            Wrap: =false
+                            X: =0.00
+                            Y: =DataCardKey21.Y
+                            ZIndex: =4
+
+                    FinalTest_DataCard1 As typedDataCard.dateEditCard:
+                        BorderColor: =App.Theme.Colors.Darker40
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="FinalTest"
+                        Default: =ThisItem.FinalTest
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: ="Final test"
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =150
+                        Required: =true
+                        Update: =DataCardValue37.SelectedDate
+                        Width: =500
+                        X: =2
+                        Y: =1
+                        ZIndex: =5
+
+                        DataCardKey37 As label:
+                            AutoHeight: =true
+                            Color: =AppTheme.palette.themeDarkText
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =34
+                            Size: =AppTheme.textsize.themeText
+                            Text: =Parent.DisplayName
+                            Width: =386.67
+                            Wrap: =false
+                            X: =50.00
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue37 As datepicker:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            CalendarHeaderFill: =App.Theme.Colors.Primary
+                            Color: =RGBA(0, 0, 0, 1)
+                            DefaultDate: =Parent.Default
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            EndYear: =Year(Today())+100
+                            Font: =App.Theme.Font
+                            Format: ="yyyy-mm-dd"
+                            Height: =50
+                            HoverDateFill: =App.Theme.Colors.Lighter70
+                            IconBackground: =AppTheme.palette.themeButton
+                            IconFill: =App.Theme.Colors.PrimaryForeground
+                            InputTextPlaceholder: =If(IsBlank(Self.SelectedDate), "YYYY-MM-DD")
+                            IsEditable: =true
+                            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                            PaddingTop: =5
+                            SelectedDateFill: =App.Theme.Colors.Primary
+                            Size: =AppTheme.textsize.themeText
+                            StartOfWeek: =StartOfWeek.Monday
+                            StartYear: =Year(Today())
+                            Tooltip: =Parent.DisplayName
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardKey37.Y + DataCardKey37.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage24 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0.00
+                            PaddingTop: =0.00
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =386.67
+                            X: =50.00
+                            Y: =DataCardValue37.Y + DataCardValue37.Height
+                            ZIndex: =3
+
+                        StarVisible24 As label:
+                            Align: =Align.Center
+                            Color: =App.Theme.Colors.Darker30
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Font: =App.Theme.Font
+                            Height: =DataCardKey37.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =50.00
+                            Wrap: =false
+                            X: =0.00
+                            Y: =DataCardKey37.Y
+                            ZIndex: =4
+
+    PopUpMessageSuccess_3 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =18
+
+        Rectangle3_5 As rectangle:
+            BorderColor: =App.Theme.Colors.Darker40
+            Fill: =RGBA(225, 236, 229, 1)
+            Height: =Parent.Height
+            Visible: =varPopUpSuccessSubstance
+            Width: =Parent.Width
+            X: =0.00
+            ZIndex: =2
+
+        iconCircle1_5 As circle.Circle:
+            BorderColor: =App.Theme.Colors.Darker40
+            Fill: =RGBA(134, 180, 150, 1)
+            Height: =Self.Width
+            Visible: =varPopUpSuccessSubstance
+            Width: =150
+            X: =Parent.Width/2 - Self.Width/2
+            Y: =(Max(App.Height, App.MinScreenHeight)/2 - Self.Height/2) * 0.7
+            ZIndex: =3
+
+        iconCheck1_5 As icon.Check:
+            BorderColor: =App.Theme.Colors.Darker40
+            Color: =App.Theme.Colors.Darker30
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(244, 244, 244, 1)
+            Height: =Self.Width
+            Icon: =Icon.Check
+            PaddingBottom: =Self.PaddingTop
+            PaddingLeft: =Self.PaddingTop
+            PaddingRight: =25.30
+            PaddingTop: =25.30
+            Visible: =varPopUpSuccessSubstance
+            Width: =150
+            X: =Parent.Width/2 - Self.Width/2
+            Y: =(Max(App.Height, App.MinScreenHeight)/2 - Self.Height/2) * 0.7
+            ZIndex: =4
+
+        LblSuccessMsg1_5 As label:
+            Align: =Align.Center
+            AutoHeight: =true
+            BorderColor: =App.Theme.Colors.Darker40
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Font: =App.Theme.Font
+            Height: =50
+            Size: =AppTheme.textsize.themeTitle2
+            Text: ="Test program successfully updated!"
+            Visible: =varPopUpSuccessSubstance
+            Width: =Parent.Width
+            X: =0.00
+            Y: =iconCheck1_5.Y + iconCheck1_5.Height +50
+            ZIndex: =5
+
+        Timer1_5 As timer:
+            BorderColor: =App.Theme.Colors.Primary
+            Color: =App.Theme.Colors.PrimaryForeground
+            DisabledBorderColor: =RGBA(244, 244, 244, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Duration: =2000
+            Fill: =App.Theme.Colors.Primary
+            Font: =App.Theme.Font
+            Height: =70
+            HoverBorderColor: =App.Theme.Colors.Darker10
+            HoverColor: =App.Theme.Colors.PrimaryForeground
+            HoverFill: =App.Theme.Colors.Darker10
+            OnTimerEnd: |-
+                =UpdateContext({varPopUpSuccessSubstance: false}); Timer1_5.Reset; Back();
+            PaddingRight: =7.03
+            PaddingTop: =7.03
+            PressedBorderColor: =App.Theme.Colors.Darker40
+            PressedColor: =Self.Color
+            PressedFill: =App.Theme.Colors.Darker40
+            Reset: =true
+            Start: =varPopUpSuccessSubstance
+            Visible: =false
+            Width: =0.00
+            X: =283.94
+            Y: =136
+            ZIndex: =6
+
